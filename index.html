@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" data-phase="1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surtr, Lord of Flame and Hell – boss, attacks, drops and models</title>
+  <meta name="description" content="Everything in the Surtr datapack and resource pack v2.7: how to summon him, every attack with damage by phase, every drop with its chance, and every 3D model.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top" id="topbar">
+    <a class="brand" href="#top">Surtr</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#summon">Summon</a>
+      <a href="#fight">The fight</a>
+      <a href="#attacks">Attacks</a>
+      <a href="#drops">Drops</a>
+      <a href="#items">Items</a>
+      <a href="#models">Models</a>
+      <a href="#reference">Reference</a>
+    </nav>
+    <div class="phase-switch" role="radiogroup" aria-label="Boss phase">
+      <span class="phase-label" id="phase-label">Phase</span>
+      <button role="radio" aria-checked="true" data-phase="1" aria-labelledby="phase-label">I</button>
+      <button role="radio" aria-checked="false" data-phase="2" aria-labelledby="phase-label">II</button>
+      <button role="radio" aria-checked="false" data-phase="3" aria-labelledby="phase-label">III</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <h1>Surtr</h1>
+        <p class="hero-sub" id="hero-sub">Lord of Flame and Hell</p>
+        <p class="hero-lede">A Minecraft boss datapack with its own resource pack. This page lists how he is summoned, every attack with its damage in each phase, everything he drops, and every 3D model in the pack. Use the phase switch above and the numbers, colors and model change with it.</p>
+        <p class="hero-meta">Datapack and resource pack v2.7 · Minecraft <span id="mc-ver"></span></p>
+        <div class="hero-links">
+          <a class="btn primary" href="#summon">How to summon him</a>
+          <a class="btn" href="#models">Browse the models</a>
+        </div>
+      </div>
+      <figure class="hero-stage">
+        <div class="stage-canvas"><canvas id="hero-canvas" aria-label="Rotating 3D model of Surtr’s head"></canvas><div class="stage-loading" id="hero-loading">Loading model…</div></div>
+        <figcaption id="hero-cap"></figcaption>
+      </figure>
+      <dl class="hero-stats" id="hero-stats"></dl>
+    </section>
+
+    <!-- SUMMON -->
+    <section class="block" id="summon">
+      <h2>Summoning</h2>
+      <p class="lead">Surtr comes from a beacon ritual. After it starts, he falls from the sky and crashes into the ground.</p>
+      <div class="split">
+        <div class="ritual-art" id="ritual-art"></div>
+        <div class="stack">
+          <h3>What the ritual needs</h3>
+          <ul class="checks" id="ritual-req"></ul>
+          <h3>If it does not work</h3>
+          <ul class="messages" id="ritual-fail"></ul>
+        </div>
+      </div>
+      <h3 class="mt">What happens after you place the skull</h3>
+      <div class="timeline" id="spawn-timeline"></div>
+      <ul class="notes" id="ritual-notes"></ul>
+    </section>
+
+    <!-- FIGHT -->
+    <section class="block" id="fight">
+      <h2>The fight</h2>
+      <p class="lead">Three phases. The switch at the top sets which column is highlighted everywhere on the page.</p>
+      <div class="phase-cards" id="phase-cards"></div>
+      <h3 class="mt">Numbers by phase</h3>
+      <div class="table-wrap"><table class="stat-table" id="stat-table"></table></div>
+
+      <div class="split mt">
+        <div>
+          <h3>Distances</h3>
+          <p class="small">Rings around Surtr for the selected phase, in blocks. Meteor rain reaches every player within 500 blocks and he picks a target within 400.</p>
+          <div id="range-map" class="range-map"></div>
+        </div>
+        <div>
+          <h3>Always on</h3>
+          <ul class="traits" id="traits"></ul>
+        </div>
+      </div>
+
+      <h3 class="mt">Transformation to Phase II</h3>
+      <p class="small">He is invulnerable while he changes form. Ragnarok mode continues into Phase III, adding 70 more ticks.</p>
+      <div class="timeline" id="tf-timeline"></div>
+    </section>
+
+    <!-- ATTACKS -->
+    <section class="block" id="attacks">
+      <h2>Attacks</h2>
+      <p class="lead">Damage is shown for every phase and the selected one is highlighted. All of his damage types count as magic, so the Infernal armor set cuts them by 96%.</p>
+      <div class="chips" id="attack-filter" role="group" aria-label="Filter attacks"></div>
+      <div class="attack-grid" id="attack-grid"></div>
+    </section>
+
+    <!-- DROPS -->
+    <section class="block" id="drops">
+      <h2>What he drops</h2>
+      <p class="lead" id="drops-lead"></p>
+      <div class="split">
+        <div>
+          <h3>Drop chances per kill</h3>
+          <div id="drop-table" class="drop-table"></div>
+          <p class="small" id="drop-math"></p>
+        </div>
+        <div class="sim" id="sim">
+          <h3>Try your luck</h3>
+          <p class="small">This runs the same rolls as the datapack’s drop function.</p>
+          <div class="sim-actions">
+            <button class="btn primary" id="sim-kill">Defeat Surtr</button>
+            <button class="btn" id="sim-reset">Reset</button>
+          </div>
+          <div class="sim-chest" id="sim-chest" aria-live="polite"><p class="empty">The chest is empty. Defeat Surtr to open it.</p></div>
+          <p class="small" id="sim-tally"></p>
+          <h4>How many kills does it take?</h4>
+          <div class="table-wrap"><table class="mc-table" id="mc-table"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ITEMS -->
+    <section class="block" id="items">
+      <h2>Items</h2>
+
+      <h3 class="mt0">Infernal Ragnarok armor</h3>
+      <div class="armor" id="armor"></div>
+
+      <h3 class="mt">Sumarbrander components</h3>
+      <div class="comp-grid" id="components"></div>
+
+      <h3 class="mt">The two swords</h3>
+      <div class="swords">
+        <div class="sword-stage">
+          <div class="seg" role="tablist" id="sword-tabs"></div>
+          <div class="stage-canvas tall"><canvas id="sword-canvas" aria-label="Rotating 3D sword"></canvas></div>
+          <p class="small" id="sword-note"></p>
+        </div>
+        <div>
+          <dl class="kv" id="sword-stats"></dl>
+        </div>
+      </div>
+
+      <h3 class="mt">Abilities</h3>
+      <p class="small">Cooldowns for Sumarbrander and the Godslayer. Hold the sword to see the remaining seconds above your hotbar.</p>
+      <div class="ability-grid" id="abilities"></div>
+      <p class="small mt-s" id="enemy-note"></p>
+
+      <h3 class="mt">Forging</h3>
+      <div class="forge" id="forge"></div>
+    </section>
+
+    <!-- MODELS -->
+    <section class="block" id="models">
+      <h2>Model lab</h2>
+      <p class="lead">All <span id="model-count">51</span> models from the resource pack, rendered live from the pack’s own JSON. Drag to turn, scroll to zoom.</p>
+      <div class="lab">
+        <aside class="lab-viewer" id="lab-viewer">
+          <div class="stage-canvas tall"><canvas id="lab-canvas" aria-label="3D model viewer"></canvas><div class="stage-loading" id="lab-loading">Pick a model</div></div>
+          <div class="lab-info">
+            <h3 id="lab-name">–</h3>
+            <p class="small" id="lab-role"></p>
+            <dl class="kv compact" id="lab-meta"></dl>
+            <div class="lab-controls">
+              <label class="check"><input type="checkbox" id="lab-rotate" checked> Turn automatically</label>
+              <label class="check"><input type="checkbox" id="lab-anim" checked> Play texture animation</label>
+              <label class="check strobe" id="lab-strobe-wrap" hidden><input type="checkbox" id="lab-strobe"> Allow flashing (Phase III strobe)</label>
+            </div>
+            <p class="warn" id="lab-warn" hidden>Phase III textures flash between bright and dim about 1.4 times a second. They are shown still unless you allow flashing.</p>
+          </div>
+        </aside>
+        <div class="lab-list">
+          <h3 class="mt0">Surtr’s body</h3>
+          <div class="part-table" id="part-table"></div>
+          <div id="other-models"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFERENCE -->
+    <section class="block" id="reference">
+      <h2>Reference</h2>
+      <div class="ref-grid">
+        <div>
+          <h3 class="mt0">Install</h3>
+          <ul class="notes">
+            <li>Datapack (<code>Surtr_Datapack_v2_7.zip</code>) goes in <code>world/datapacks</code>. Pack format <span id="dp-fmt"></span>.</li>
+            <li>Resource pack (<code>Surtr_Resource_Pack_v2_7.zip</code>) goes in <code>resourcepacks</code>, or is the server pack on multiplayer. Pack format <span id="rp-fmt"></span>.</li>
+            <li>Install both. Everything uses the <code>surtr</code> namespace and touches nothing of Jormungandr or Factions.</li>
+            <li>The author’s README states the packs were built and linted offline and not playtested in game. Treat every number here as what the code says.</li>
+          </ul>
+          <h3>Admin commands</h3>
+          <div class="table-wrap"><table class="plain" id="cmd-table"></table></div>
+        </div>
+        <div>
+          <h3 class="mt0">Settings</h3>
+          <div class="table-wrap"><table class="plain" id="cfg-table"></table></div>
+          <h3>Death messages</h3>
+          <ul class="messages" id="death-list"></ul>
+          <h3>Sound events</h3>
+          <div class="table-wrap"><table class="plain" id="sound-table"></table></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Built from Surtr datapack and resource pack v2.7. Each value was read from the datapack functions, loot tables and models.</p>
+    <p class="small">Not affiliated with Mojang or Microsoft.</p>
+  </footer>
+
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="data/index.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/viewer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
